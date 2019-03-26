@@ -21,7 +21,7 @@ if [[ "$1" = 'freeswitch' ]]; then
         done
     fi
     
-    exec gosu freeswitch /usr/bin/freeswitch -u freeswitch -g freeswitch -nonat -c
+    exec gosu freeswitch freeswitch -u freeswitch -g freeswitch -c
 fi
 
 exec "$@"

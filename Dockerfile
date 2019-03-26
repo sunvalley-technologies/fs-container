@@ -8,10 +8,70 @@ RUN wget -O - https://files.freeswitch.org/repo/deb/freeswitch-1.8/fsstretch-arc
 RUN echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.8/ stretch main" > /etc/apt/sources.list.d/freeswitch.list
 RUN echo "deb-src http://files.freeswitch.org/repo/deb/freeswitch-1.8/ stretch main" >> /etc/apt/sources.list.d/freeswitch.list
 
-RUN apt-get update && apt-get install -y freeswitch-meta-all && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Cleanup
-RUN apt-get autoremove
+RUN apt-get update && apt-get install -y freeswitch \
+                                         freeswitch-init \
+                                         freeswitch-timezones \
+                                         freeswitch-music \
+                                         freeswitch-mod-opus \
+                                         freeswitch-mod-silk \
+                                         freeswitch-conf-curl \
+                                         freeswitch-conf-insideout \
+                                         freeswitch-conf-sbc \
+                                         freeswitch-conf-softphone \
+                                         freeswitch-conf-vanilla \
+                                         freeswitch-lang-en \
+                                         freeswitch-sounds-en \
+                                         freeswitch-mod-say-en \
+                                         freeswitch-mod-abstraction \
+                                         freeswitch-mod-avmd \
+                                         freeswitch-mod-blacklist \
+                                         freeswitch-mod-commands \
+                                         freeswitch-mod-conference \
+                                         freeswitch-mod-curl \
+                                         freeswitch-mod-distributor \
+                                         freeswitch-mod-dptools \
+                                         freeswitch-mod-esl \
+                                         freeswitch-mod-expr \
+                                         freeswitch-mod-fifo \
+                                         freeswitch-mod-hash \
+                                         freeswitch-mod-httapi \
+                                         freeswitch-mod-http-cache \
+                                         freeswitch-mod-nibblebill \
+                                         freeswitch-mod-png \
+                                         freeswitch-mod-redis \
+                                         freeswitch-mod-sms \
+                                         freeswitch-mod-sonar \
+                                         freeswitch-mod-spy \
+                                         freeswitch-mod-translate \
+                                         freeswitch-mod-valet-parking \
+                                         freeswitch-mod-video-filter \
+                                         freeswitch-mod-voicemail \
+                                         freeswitch-mod-voicemail-ivr \
+                                         freeswitch-mod-dialplan-directory \
+                                         freeswitch-mod-dialplan-xml \
+                                         freeswitch-mod-loopback \
+                                         freeswitch-mod-portaudio \
+                                         freeswitch-mod-rtc \
+                                         freeswitch-mod-rtmp \
+                                         freeswitch-mod-sofia \
+                                         freeswitch-mod-cdr-csv \
+                                         freeswitch-mod-cdr-sqlite \
+                                         freeswitch-mod-event-socket \
+                                         freeswitch-mod-json-cdr \
+                                         freeswitch-mod-local-stream \
+                                         freeswitch-mod-native-file \
+                                         freeswitch-mod-portaudio-stream \
+                                         freeswitch-mod-shell-stream \
+                                         freeswitch-mod-sndfile \
+                                         freeswitch-mod-tone-stream \
+                                         freeswitch-mod-lua \
+                                         freeswitch-mod-console \
+                                         freeswitch-mod-logfile \
+                                         freeswitch-mod-syslog \
+                                         freeswitch-mod-posix-timer \
+                                         freeswitch-mod-timerfd \
+                                         freeswitch-mod-xml-cdr \
+                                         freeswitch-mod-xml-rpc && apt-get clean && rm -rf /var/lib/apt/lists/* && apt-get autoremove
 
 COPY docker-entrypoint.sh /
 # Add anything else here
@@ -41,7 +101,6 @@ COPY    build/freeswitch.limits.conf /etc/security/limits.d/
 SHELL       ["/bin/bash"]
 HEALTHCHECK --interval=15s --timeout=5s \
     CMD  fs_cli -x status | grep -q ^UP || exit 1
-
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
